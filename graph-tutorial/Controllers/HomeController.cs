@@ -1,4 +1,5 @@
-﻿using graph_tutorial.Helpers;
+﻿using graph_tutorial.Attributes;
+using graph_tutorial.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace graph_tutorial.Controllers
 {
+    [AzureAuthenticate]
     public class HomeController : BaseController
     {
         public ActionResult Index()
@@ -36,6 +38,8 @@ namespace graph_tutorial.Controllers
 
         public async Task<ActionResult> Test()
         {
+
+            await GraphHelper.GetList();
             var a = await GraphHelper.GetMe();
             //ViewBag.Mail = a.Mail;
             ViewBag.Name = a.DisplayName;

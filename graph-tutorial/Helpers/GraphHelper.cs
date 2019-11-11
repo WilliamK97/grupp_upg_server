@@ -76,5 +76,16 @@ namespace graph_tutorial.Helpers
             return await GetAuthenticatedClient().Me.Request().GetAsync();
         }
 
+        public static async Task GetList()
+        {
+            var client = GetAuthenticatedClient();
+            var queryOptions = new List<QueryOption>()
+            {
+                new QueryOption("expand", "fields(select=Title,Description)")
+            };
+
+            var items = await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items.Request(queryOptions).GetAsync();           
+        }
+
     }
 }
