@@ -95,6 +95,7 @@ namespace graph_tutorial.TokenStorage
 
         public void SaveUserDetails(CachedUser user)
         {
+
             sessionLock.EnterWriteLock();
             httpContext.Session[userCacheKey] = JsonConvert.SerializeObject(user);
             sessionLock.ExitWriteLock();
