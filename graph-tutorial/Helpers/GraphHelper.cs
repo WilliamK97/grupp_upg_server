@@ -8,6 +8,8 @@ using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
+using System.IO;
+using System;
 
 namespace graph_tutorial.Helpers
 {
@@ -76,6 +78,23 @@ namespace graph_tutorial.Helpers
             return await GetAuthenticatedClient().Me.Request().GetAsync();
         }
 
+        public static async Task<string> GetMyPhoto()
+        {
+            var photoStream = await GetAuthenticatedClient().Me.Photo.Content.Request().GetAsync();
+                      
+            MemoryStream ms = new MemoryStream();
+
+            photoStream.CopyTo(ms);
+
+            byte[] buffer = ms.ToArray();
+
+            string result = Convert.ToBase64String(buffer);
+
+            return result;
+
+
+        }
+
         public static async Task GetList()
         {
             var client = GetAuthenticatedClient();
@@ -84,8 +103,7 @@ namespace graph_tutorial.Helpers
                 new QueryOption("expand", "fields(select=Title,Description)")
             };
 
-            var items = await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items.Request(queryOptions).GetAsync();           
-        }
+            var items = await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items.Request(queryOptions).GetAsync();
 
-    }
+        }
 }

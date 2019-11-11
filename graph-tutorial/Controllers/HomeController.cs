@@ -41,8 +41,10 @@ namespace graph_tutorial.Controllers
 
             await GraphHelper.GetList();
             var a = await GraphHelper.GetMe();
-            //ViewBag.Mail = a.Mail;
+            var photo = await GraphHelper.GetMyPhoto();
+            ViewBag.Mail = a.Mail;
             ViewBag.Name = a.DisplayName;
+            ViewBag.Photo = photo;
 
             return View();
         }
