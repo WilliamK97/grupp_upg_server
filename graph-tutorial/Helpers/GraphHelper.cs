@@ -120,5 +120,27 @@ namespace graph_tutorial.Helpers
                 };
             }).ToArray();
         }
+
+        public static async Task PostBooking(Booking b)
+        {
+
+            var client = GetAuthenticatedClient();
+
+
+            var fieldValueSet = new FieldValueSet();
+            fieldValueSet.AdditionalData = new Dictionary<string, object>();
+
+            fieldValueSet.AdditionalData.Add("Title", b.Title);
+            fieldValueSet.AdditionalData.Add("Description", b.Description);
+
+            var listItem = new ListItem
+            {
+                Fields = fieldValueSet
+            };
+
+            await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items
+                .Request()
+                .AddAsync(listItem);
+        }
     }
 }

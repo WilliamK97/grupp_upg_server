@@ -11,3 +11,28 @@
     <img src="data:image/png;base64,@ViewBag.Photo" />
 }
 
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.Bookings)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Description
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Create", "Create",null, new { @class= "btn btn-primary" })
+@Html.ActionLink("Update", "Update",null, new { @class= "btn btn-primary" })
+
