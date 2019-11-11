@@ -31,6 +31,11 @@ namespace graph_tutorial.Helpers
             return events.CurrentPage;
         }
 
+        public static async Task<User> Test()
+        {
+            return await GetAuthenticatedClient().Me.Request().GetAsync();
+        }
+
         private static GraphServiceClient GetAuthenticatedClient()
         {
             return new GraphServiceClient(
@@ -60,6 +65,7 @@ namespace graph_tutorial.Helpers
 
         public static async Task<User> GetUserDetailsAsync(string accessToken)
         {
+            
             var graphClient = new GraphServiceClient(
                 new DelegateAuthenticationProvider(
                     async (requestMessage) =>
@@ -70,5 +76,7 @@ namespace graph_tutorial.Helpers
 
             return await graphClient.Me.Request().GetAsync();
         }
+
+      
     }
 }
