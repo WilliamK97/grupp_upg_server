@@ -81,19 +81,24 @@ namespace graph_tutorial.Helpers
 
         public static async Task<string> GetMyPhoto()
         {
-            var photoStream = await GetAuthenticatedClient().Me.Photo.Content.Request().GetAsync();
+            try
+            {
+                var photoStream = await GetAuthenticatedClient().Me.Photo.Content.Request().GetAsync();
 
-            MemoryStream ms = new MemoryStream();
+                MemoryStream ms = new MemoryStream();
 
-            photoStream.CopyTo(ms);
+                photoStream.CopyTo(ms);
 
-            byte[] buffer = ms.ToArray();
+                byte[] buffer = ms.ToArray();
 
-            string result = Convert.ToBase64String(buffer);
+                string result = Convert.ToBase64String(buffer);
 
-            return result;
-
-
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static async Task<Booking[]> GetBookings()

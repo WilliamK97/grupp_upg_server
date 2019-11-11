@@ -6,5 +6,8 @@
 <h2>Hi @ViewBag.Name</h2>
 <h4>@ViewBag.Mail</h4>
 
-<img src="data:image/png;base64,@ViewBag.Photo" />
+@if (!string.IsNullOrEmpty(ViewBag.Photo))
+{
+    <img src="data:image/png;base64,@ViewBag.Photo" />
+}
 
