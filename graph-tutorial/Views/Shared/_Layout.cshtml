@@ -38,6 +38,10 @@
                             @Html.ActionLink("Calendar", "Index", "Calendar", new { area = "" },
                                 new { @class = ViewBag.Current == "Calendar" ? "nav-link active" : "nav-link" })
                         </li>
+                        <li class="nav-item" data-turbolinks="false">
+                            @Html.ActionLink("Me", "Test", "Home", new { area = "" },
+                                new { @class = ViewBag.Current == "Me" ? "nav-link active" : "nav-link" })
+                        </li>
                     }
                 </ul>
                 <ul class="navbar-nav justify-content-end">
