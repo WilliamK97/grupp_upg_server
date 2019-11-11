@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Web;
 using System.IO;
 using System;
+using graph_tutorial.Models;
 
 namespace graph_tutorial.Helpers
 {
@@ -49,9 +50,9 @@ namespace graph_tutorial.Helpers
 
                         var accounts = await idClient.GetAccountsAsync();
 
-                // By calling this here, the token can be refreshed
-                // if it's expired right before the Graph call is made
-                var scopes = graphScopes.Split(' ');
+                        // By calling this here, the token can be refreshed
+                        // if it's expired right before the Graph call is made
+                        var scopes = graphScopes.Split(' ');
                         var result = await idClient.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                             .ExecuteAsync();
 
@@ -81,7 +82,7 @@ namespace graph_tutorial.Helpers
         public static async Task<string> GetMyPhoto()
         {
             var photoStream = await GetAuthenticatedClient().Me.Photo.Content.Request().GetAsync();
-                      
+
             MemoryStream ms = new MemoryStream();
 
             photoStream.CopyTo(ms);
@@ -95,7 +96,7 @@ namespace graph_tutorial.Helpers
 
         }
 
-        public static async Task GetList()
+        public static async Task<Booking[]> GetBookings()
         {
             var client = GetAuthenticatedClient();
             var queryOptions = new List<QueryOption>()
@@ -104,6 +105,15 @@ namespace graph_tutorial.Helpers
             };
 
             var items = await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items.Request(queryOptions).GetAsync();
-
+            return items.Select(_ =>
+            {
+                var data = _.Fields.AdditionalData;
+                return new Booking()
+                {
+                    Title = data["Title"].ToString(),
+                    Description = data["Description"].ToString()
+                };
+            }).ToArray();
         }
+    }
 }

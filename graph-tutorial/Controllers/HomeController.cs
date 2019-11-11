@@ -38,8 +38,6 @@ namespace graph_tutorial.Controllers
 
         public async Task<ActionResult> Test()
         {
-
-            await GraphHelper.GetList();
             var a = await GraphHelper.GetMe();
             var photo = await GraphHelper.GetMyPhoto();
             ViewBag.Mail = a.Mail;
