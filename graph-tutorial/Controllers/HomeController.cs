@@ -1,6 +1,8 @@
-﻿using System;
+﻿using graph_tutorial.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -31,5 +33,16 @@ namespace graph_tutorial.Controllers
             Flash(message, debug);
             return RedirectToAction("Index");
         }
+
+        public async Task<ActionResult> Test()
+        {
+            var a = await GraphHelper.GetMe();
+            //ViewBag.Mail = a.Mail;
+            ViewBag.Name = a.DisplayName;
+
+            return View();
+        }
+
+
     }
 }
