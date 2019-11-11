@@ -70,5 +70,13 @@ namespace graph_tutorial.Helpers
 
             return await graphClient.Me.Request().GetAsync();
         }
+
+        public static async Task<User> GetMe()
+        {
+           return await GetAuthenticatedClient().Me.Request().GetAsync();
+        }
+
+
+
     }
 }

@@ -181,6 +181,7 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\FlabbyBirdController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -272,6 +273,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
