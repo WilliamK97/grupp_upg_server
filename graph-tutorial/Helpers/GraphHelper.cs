@@ -8,6 +8,8 @@ using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
+using System.IO;
+using System;
 
 namespace graph_tutorial.Helpers
 {
@@ -74,6 +76,23 @@ namespace graph_tutorial.Helpers
         public static async Task<User> GetMe()
         {
             return await GetAuthenticatedClient().Me.Request().GetAsync();
+        }
+
+        public static async Task<string> GetMyPhoto()
+        {
+            var photoStream = await GetAuthenticatedClient().Me.Photo.Content.Request().GetAsync();
+                      
+            MemoryStream ms = new MemoryStream();
+
+            photoStream.CopyTo(ms);
+
+            byte[] buffer = ms.ToArray();
+
+            string result = Convert.ToBase64String(buffer);
+
+            return result;
+
+
         }
 
     }
