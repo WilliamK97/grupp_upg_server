@@ -6,6 +6,19 @@
 <h2>Hi @ViewBag.Name</h2>
 <h4>@ViewBag.Mail</h4>
 
+<div class="col-lg-3" style="padding-left:110%;">
+    <h2>Your Favourites</h2>
+    <ul>
+
+        @foreach (var item in ViewBag.Users)
+        {
+            <li>@item.DisplayName</li>
+        }
+    </ul>
+
+
+</div>
+
 @if (!string.IsNullOrEmpty(ViewBag.Photo))
 {
     <img src="data:image/png;base64,@ViewBag.Photo" />
@@ -16,22 +29,26 @@
         <tr>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
+            <th scope="col">Person</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in ViewBag.Bookings)
         {
-            <tr>
-                <td>
-                    @item.Title
-                </td>
-                <td>
-                    @item.Description
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @item.Title
+            </td>
+            <td>
+                @item.Description
+            </td>
+          
+        </tr>
         }
     </tbody>
 </table>
+
+
 
 @Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary" })
 @Html.ActionLink("Update", "Update", null, new { @class = "btn btn-primary" })
