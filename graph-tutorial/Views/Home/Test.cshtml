@@ -3,14 +3,20 @@
     ViewBag.Title = "Test";
 }
 
-<h2>Hi @ViewBag.Name</h2>
+    <h2>
+        @if (!string.IsNullOrEmpty(ViewBag.Photo))
+        {
+            <img style="width: 7%;" src="data:image/png;base64,@ViewBag.Photo" />
+        }
+        Hi @ViewBag.Name
+    </h2>
 <h4>@ViewBag.Mail</h4>
 
-@if (!string.IsNullOrEmpty(ViewBag.Photo))
+@*@if (!string.IsNullOrEmpty(ViewBag.Photo))
 {
     <img src="data:image/png;base64,@ViewBag.Photo" />
-}
-
+}*@
+<hr />
 <table class="table table-dark">
     <thead>
         <tr>
