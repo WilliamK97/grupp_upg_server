@@ -1,0 +1,14 @@
+﻿@model Microsoft.Graph.Message
+
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.TextBoxFor(m => m.Subject)
+    @Html.TextAreaFor(m => m.Body.Content)
+
+    <button type="submit" class="btn btn-primary">Send</button>
+}

@@ -182,6 +182,7 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\FlabbyBirdController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -271,6 +272,9 @@
     <Content Include="Views\FlabbyBird\Index.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
+    <Content Include="Views\Mail\Index.cshtml" />
+    <Content Include="Views\Mail\Details.cshtml" />
+    <Content Include="Views\Mail\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

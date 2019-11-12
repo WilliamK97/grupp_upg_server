@@ -56,7 +56,7 @@
                         <li class="nav-item" data-turbolinks="false">
 
                             @{
-                                string name = ViewBag.User.DisplayName;
+                                string name = ViewBag.User != null ? ViewBag.User.DisplayName : "Unknown";
                             }
 
 

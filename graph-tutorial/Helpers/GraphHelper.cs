@@ -1,16 +1,16 @@
-﻿using Microsoft.Graph;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+﻿using graph_tutorial.Models;
 using graph_tutorial.TokenStorage;
+using Microsoft.Graph;
 using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Security.Claims;
-using System.Web;
 using System.IO;
-using System;
-using graph_tutorial.Models;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace graph_tutorial.Helpers
 {
@@ -182,6 +182,61 @@ namespace graph_tutorial.Helpers
             await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items[id]
                 .Request()
                 .DeleteAsync();
+        }
+
+        public static async Task<Message[]> GetMessages()
+        {
+            var client = GetAuthenticatedClient();
+            var messages = await client.Me.Messages
+            .Request()
+            .Select(e => new
+            {
+                e.Sender,
+                e.Subject
+            })
+            .GetAsync();
+            return messages.ToArray();
+        }
+
+        public static async Task<Message> GetMessage(string id)
+        {
+            GraphServiceClient graphClient = GetAuthenticatedClient();
+
+            return await graphClient.Me.Messages[id]
+                .Request()
+                .GetAsync();
+        }
+
+        public static async Task SendMail(string subject, string body, string address)
+        {
+            GraphServiceClient graphClient = GetAuthenticatedClient();
+
+            var message = new Message
+            {
+                Subject = subject,
+                Body = new ItemBody
+                {
+                    ContentType = BodyType.Text,
+                    Content = body
+                },
+                ToRecipients = new List<Recipient>()
+                {
+                    new Recipient
+                    {
+                        EmailAddress = new EmailAddress
+                        {
+                            Address = address
+                        }
+                    }
+                }
+            };
+
+            var saveToSentItems = false;
+
+            await graphClient.Me
+                .SendMail(message, saveToSentItems)
+                .Request()
+                .PostAsync();
         }
     }
 }
