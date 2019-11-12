@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASP.NET Graph Tutorial</title>
+    <title>Grupp 5 - Sharepoint Server</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -21,7 +21,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container">
-            @Html.ActionLink("ASP.NET Graph Tutorial", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Grupp 5 - Nackademin", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -36,9 +36,9 @@
                     {
                         <li class="nav-item" data-turbolinks="false">
                             @Html.ActionLink("Calendar", "Index", "Calendar", new { area = "" },
-         new { @class = ViewBag.Current == "Calendar" ? "nav-link active" : "nav-link" })
+                            new { @class = ViewBag.Current == "Calendar" ? "nav-link active" : "nav-link" })
                         </li>
-                        <li class="nav-item" data-turbolinks="false">
+                        @*<li class="nav-item" data-turbolinks="false">
 
                             @{
                                 string name = ViewBag.User.DisplayName;
@@ -47,15 +47,28 @@
                             
                             @Html.ActionLink(name, "Test", "Home", new { area = "" },
                                 new { @class = ViewBag.Current == "Me" ? "nav-link active" : "nav-link" })
-                        </li>
+                        </li>*@
                     }
                 </ul>
                 <ul class="navbar-nav justify-content-end">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://developer.microsoft.com/graph/docs/concepts/overview" target="_blank">
-                            <i class="fas fa-external-link-alt mr-1"></i>Docs
-                        </a>
-                    </li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li class="nav-item" data-turbolinks="false">
+
+                            @{
+                                string name = ViewBag.User.DisplayName;
+                            }
+
+
+                            @Html.ActionLink(name, "Test", "Home", new { area = "" },
+                                new { @class = ViewBag.Current == "Me" ? "nav-link active" : "nav-link" })
+                        </li>
+                    }
+                    @*<li class="nav-item">
+            <a class="nav-link" href="https://developer.microsoft.com/graph/docs/concepts/overview" target="_blank">
+                <i class="fas fa-external-link-alt mr-1"></i>Docs
+            </a>
+        </li>*@
                     @if (Request.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
