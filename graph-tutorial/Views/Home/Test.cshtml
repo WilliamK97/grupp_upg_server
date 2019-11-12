@@ -16,23 +16,30 @@
         <tr>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
+            <th scope="col">Update</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in ViewBag.Bookings)
         {
-            <tr>
-                <td>
-                    @item.Title
-                </td>
-                <td>
-                    @item.Description
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @item.Title
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @Html.ActionLink("Update", "Create", new { id = item.Id }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-primary" })
+ 
+            </td>
+            
+        </tr>
         }
     </tbody>
 </table>
 
 @Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary" })
-@Html.ActionLink("Update", "Update", null, new { @class = "btn btn-primary" })
+
 
