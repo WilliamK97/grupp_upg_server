@@ -3,7 +3,13 @@
     ViewBag.Title = "Test";
 }
 
-<h2>Hi @ViewBag.Name</h2>
+    <h2>
+        @if (!string.IsNullOrEmpty(ViewBag.Photo))
+        {
+            <img style="width: 7%;" src="data:image/png;base64,@ViewBag.Photo" />
+        }
+        Hi @ViewBag.Name
+    </h2>
 <h4>@ViewBag.Mail</h4>
 
 <div class="col-lg-3" style="padding-left:110%;">
@@ -22,14 +28,15 @@
 @if (!string.IsNullOrEmpty(ViewBag.Photo))
 {
     <img src="data:image/png;base64,@ViewBag.Photo" />
-}
-
+}*@
+<hr />
 <table class="table table-dark">
     <thead>
         <tr>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Person</th>
+            <th scope="col">Update</th>
         </tr>
     </thead>
     <tbody>
@@ -43,6 +50,12 @@
                 @item.Description
             </td>
           
+            <td>
+                @Html.ActionLink("Update", "Create", new { id = item.Id }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-primary" })
+ 
+            </td>
+            
         </tr>
         }
     </tbody>
@@ -51,5 +64,5 @@
 
 
 @Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary" })
-@Html.ActionLink("Update", "Update", null, new { @class = "btn btn-primary" })
+
 

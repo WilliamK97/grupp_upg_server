@@ -1,0 +1,44 @@
+﻿@model Microsoft.Graph.Message[]
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table table-dark table-sm table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Subject</th>
+            <th scope="col">Message</th>
+            <th scope="col">Sender</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr onclick='readMail("@item.Id")'>
+                <td>
+                    @item.Subject
+                </td>
+                <td>
+                    @item.BodyPreview
+                </td>
+                <td>@item.Sender.EmailAddress.Address</td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-primary" })
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.ActionLink("Compose", "Create", null, new { @class = "btn btn-primary" })
+
+<script>
+    function readMail(id) {
+        window.location.href = '@Url.Action("Details","Mail")/' + id
+    }
+</script>
+

@@ -1,16 +1,16 @@
-﻿using Microsoft.Graph;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+﻿using graph_tutorial.Models;
 using graph_tutorial.TokenStorage;
+using Microsoft.Graph;
 using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Security.Claims;
-using System.Web;
 using System.IO;
-using System;
-using graph_tutorial.Models;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace graph_tutorial.Helpers
 {
@@ -106,7 +106,7 @@ namespace graph_tutorial.Helpers
             var client = GetAuthenticatedClient();
             var queryOptions = new List<QueryOption>()
             {
-                new QueryOption("expand", "fields(select=Title,Description)")
+                new QueryOption("expand", "fields(select=Title,Description,ID)")
             };
 
             var items = await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items.Request(queryOptions).GetAsync();
@@ -116,16 +116,15 @@ namespace graph_tutorial.Helpers
                 return new Booking()
                 {
                     Title = data["Title"].ToString(),
-                    Description = data["Description"].ToString()
+                    Description = data["Description"].ToString(),
+                    Id = _.Id
                 };
             }).ToArray();
         }
 
         public static async Task PostBooking(Booking b)
         {
-
             var client = GetAuthenticatedClient();
-
 
             var fieldValueSet = new FieldValueSet();
             fieldValueSet.AdditionalData = new Dictionary<string, object>();
@@ -167,5 +166,91 @@ namespace graph_tutorial.Helpers
 
         }
 
+        public static async Task UpdateBooking(Booking b)
+        {
+            var client = GetAuthenticatedClient();
+
+            var fieldValueSet = new FieldValueSet();
+            fieldValueSet.AdditionalData = new Dictionary<string, object>();
+
+            fieldValueSet.AdditionalData.Add("Title", b.Title);
+            fieldValueSet.AdditionalData.Add("Description", b.Description);
+
+            await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items[b.Id].Fields.Request().UpdateAsync(fieldValueSet);
+        }
+
+        public static async Task<Booking> GetBooking(string id)
+        {
+            var client = GetAuthenticatedClient();
+
+            var queryOptions = new List<QueryOption>()
+            {
+                new QueryOption("expand", "fields")
+            };
+
+            var listItem = await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items[id].Request(queryOptions).GetAsync();
+
+            var data = listItem.Fields.AdditionalData;
+            return new Booking()
+            {
+                Title = data["Title"].ToString(),
+                Description = data["Description"].ToString(),
+                Id = listItem.Id
+            };
+        }
+
+        public static async Task DeleteBooking(string id)
+        {
+            var client = GetAuthenticatedClient();
+
+            await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items[id]
+                .Request()
+                .DeleteAsync();
+        }
+
+        public static async Task<Message[]> GetMessages()
+        {
+            var client = GetAuthenticatedClient();
+            var messages = await client.Me.Messages
+            .Request()
+            .Select(e => new
+            {
+                e.Sender,
+                e.BodyPreview,
+                e.Subject
+            })
+            .GetAsync();
+            return messages.ToArray();
+        }
+
+        public static async Task<Message> GetMessage(string id)
+        {
+            GraphServiceClient graphClient = GetAuthenticatedClient();
+
+            return await graphClient.Me.Messages[id]
+                .Request()
+                .GetAsync();
+        }
+
+        public static async Task SendMail(Message message)
+        {
+            GraphServiceClient graphClient = GetAuthenticatedClient();
+
+            var saveToSentItems = false;
+
+            await graphClient.Me
+                .SendMail(message, saveToSentItems)
+                .Request()
+                .PostAsync();
+        }
+
+        public static async Task DeleteMessage(string id)
+        {
+            GraphServiceClient graphClient = GetAuthenticatedClient();
+
+            await graphClient.Me.Messages[id]
+                .Request()
+                .DeleteAsync();
+        }
     }
 }

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace graph_tutorial.Controllers
 {
-    [AzureAuthenticate]
+    [AzureAuthenticate("https://localhost:44397/Mail")]
     public class HomeController : BaseController
     {
         public ActionResult Index()
@@ -62,13 +62,41 @@ namespace graph_tutorial.Controllers
             var folk = await GraphHelper.ListUser();
             var list = folk.Select(_ => new SelectListItem() { Text = _.DisplayName, Value = _.Id}).ToList();
             ViewBag.Users = list;
+        public async Task<ActionResult> Create(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var booking = await GraphHelper.GetBooking(id);
+                return View(booking);
+            }
             return View();
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(Booking b)
         {
-            await GraphHelper.PostBooking(b);
+            if (string.IsNullOrEmpty(b.Id))
+            {
+                await GraphHelper.PostBooking(b);
+            }
+            else
+            {
+                await GraphHelper.UpdateBooking(b);
+            }
+            
+            return RedirectToAction("Test");
+        }
+        //[HttpPost]
+        //public async Task<ActionResult> Update(Booking b)
+        //{
+        //    await GraphHelper.UpdateBooking(b);
+
+        //    return RedirectToAction("Test");
+        //}
+
+        public async Task<ActionResult> Delete(string id)
+        {
+            await GraphHelper.DeleteBooking(id);
 
             return RedirectToAction("Test");
         }
