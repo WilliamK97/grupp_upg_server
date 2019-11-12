@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace graph_tutorial.Controllers
 {
-    [AzureAuthenticate]
+    [AzureAuthenticate("https://localhost:44397/Mail")]
     public class HomeController : BaseController
     {
         public ActionResult Index()

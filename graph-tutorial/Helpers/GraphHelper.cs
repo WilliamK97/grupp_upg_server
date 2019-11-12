@@ -192,6 +192,7 @@ namespace graph_tutorial.Helpers
             .Select(e => new
             {
                 e.Sender,
+                e.BodyPreview,
                 e.Subject
             })
             .GetAsync();
@@ -207,29 +208,9 @@ namespace graph_tutorial.Helpers
                 .GetAsync();
         }
 
-        public static async Task SendMail(string subject, string body, string address)
+        public static async Task SendMail(Message message)
         {
             GraphServiceClient graphClient = GetAuthenticatedClient();
-
-            var message = new Message
-            {
-                Subject = subject,
-                Body = new ItemBody
-                {
-                    ContentType = BodyType.Text,
-                    Content = body
-                },
-                ToRecipients = new List<Recipient>()
-                {
-                    new Recipient
-                    {
-                        EmailAddress = new EmailAddress
-                        {
-                            Address = address
-                        }
-                    }
-                }
-            };
 
             var saveToSentItems = false;
 
@@ -237,6 +218,15 @@ namespace graph_tutorial.Helpers
                 .SendMail(message, saveToSentItems)
                 .Request()
                 .PostAsync();
+        }
+
+        public static async Task DeleteMessage(string id)
+        {
+            GraphServiceClient graphClient = GetAuthenticatedClient();
+
+            await graphClient.Me.Messages[id]
+                .Request()
+                .DeleteAsync();
         }
     }
 }

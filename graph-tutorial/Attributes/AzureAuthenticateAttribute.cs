@@ -10,6 +10,13 @@ namespace graph_tutorial.Attributes
 {
     public class AzureAuthenticateAttribute : AuthorizeAttribute
     {
+        private string _RedirectUrl = "/";
+
+        public AzureAuthenticateAttribute(string redirectUrl)
+        {
+            _RedirectUrl = redirectUrl;
+        }
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var request = httpContext.Request;
@@ -19,7 +26,7 @@ namespace graph_tutorial.Attributes
                 // Signal OWIN to send an authorization request to Azure
                 request.GetOwinContext().Authentication.Challenge(
                     new AuthenticationProperties {
-                        RedirectUri = "https://localhost:44397/home/index",
+                        RedirectUri = _RedirectUrl,
                         },
                     OpenIdConnectAuthenticationDefaults.AuthenticationType);
             }

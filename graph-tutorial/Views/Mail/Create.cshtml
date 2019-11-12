@@ -1,5 +1,4 @@
-﻿@model Microsoft.Graph.Message
-
+﻿@model graph_tutorial.Models.MessageViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -7,8 +6,18 @@
 
 @using (Html.BeginForm())
 {
-    @Html.TextBoxFor(m => m.Subject)
-    @Html.TextAreaFor(m => m.Body.Content)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Reciepient)
+        @Html.TextBoxFor(m => m.Reciepient, new { @class = "form-control", placeholder = "name@example.com", type = "email" })
+    </div>
 
+    <div class="form-group">
+        @Html.LabelFor(m => m.Subject)
+        @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", placeholder = "Subject", type = "text" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Content)
+        @Html.TextAreaFor(m => m.Content, new { @class = "form-control", placeholder = "Content", rows="3" })
+    </div>
     <button type="submit" class="btn btn-primary">Send</button>
 }
