@@ -1,5 +1,6 @@
 ﻿using graph_tutorial.Attributes;
 using graph_tutorial.Helpers;
+using graph_tutorial.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,14 +39,58 @@ namespace graph_tutorial.Controllers
 
         public async Task<ActionResult> Test()
         {
+            var axel = await GraphHelper.GetBookings();
             var a = await GraphHelper.GetMe();
             var photo = await GraphHelper.GetMyPhoto();
+            ViewBag.Bookings = axel;
             ViewBag.Mail = a.Mail;
             ViewBag.Name = a.DisplayName;
             ViewBag.Photo = photo;
 
             return View();
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Create(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var booking = await GraphHelper.GetBooking(id);
+                return View(booking);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(Booking b)
+        {
+            if (string.IsNullOrEmpty(b.Id))
+            {
+                await GraphHelper.PostBooking(b);
+            }
+            else
+            {
+                await GraphHelper.UpdateBooking(b);
+            }
+            
+            return RedirectToAction("Test");
+        }
+        //[HttpPost]
+        //public async Task<ActionResult> Update(Booking b)
+        //{
+        //    await GraphHelper.UpdateBooking(b);
+
+        //    return RedirectToAction("Test");
+        //}
+
+        public async Task<ActionResult> Delete(string id)
+        {
+            await GraphHelper.DeleteBooking(id);
+
+            return RedirectToAction("Test");
+        }
+
+
 
 
     }
