@@ -27,7 +27,10 @@ namespace graph_tutorial
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                CookieManager = new Microsoft.Owin.Host.SystemWeb.SystemWebCookieManager()
+            });
 
             app.UseOpenIdConnectAuthentication(
                 new OpenIdConnectAuthenticationOptions

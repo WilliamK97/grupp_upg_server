@@ -18,7 +18,9 @@ namespace graph_tutorial.Attributes
             {
                 // Signal OWIN to send an authorization request to Azure
                 request.GetOwinContext().Authentication.Challenge(
-                    new AuthenticationProperties { RedirectUri = "/" },
+                    new AuthenticationProperties {
+                        RedirectUri = "https://localhost:44397/home/index",
+                        },
                     OpenIdConnectAuthenticationDefaults.AuthenticationType);
             }
             return base.AuthorizeCore(httpContext);
