@@ -75,13 +75,7 @@ namespace graph_tutorial.Controllers
             
             return RedirectToAction("Test");
         }
-        //[HttpPost]
-        //public async Task<ActionResult> Update(Booking b)
-        //{
-        //    await GraphHelper.UpdateBooking(b);
-
-        //    return RedirectToAction("Test");
-        //}
+        
 
         public async Task<ActionResult> Delete(string id)
         {
@@ -89,9 +83,6 @@ namespace graph_tutorial.Controllers
 
             return RedirectToAction("Test");
         }
-
-
-
 
     }
 }
