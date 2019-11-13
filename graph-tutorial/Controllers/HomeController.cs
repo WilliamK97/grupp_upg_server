@@ -57,11 +57,7 @@ namespace graph_tutorial.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Create()
-        {
-            var folk = await GraphHelper.ListUser();
-            var list = folk.Select(_ => new SelectListItem() { Text = _.DisplayName, Value = _.Id}).ToList();
-            ViewBag.Users = list;
+        
         public async Task<ActionResult> Create(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -95,21 +91,5 @@ namespace graph_tutorial.Controllers
             return RedirectToAction("Test");
         }
 
-<<<<<<< HEAD
-=======
-
-        //public async Task<ActionResult> GetUser()
-        //{
-        //    var folk = await GraphHelper.ListUser();
-        //    ViewBag.Users = folk;
-
-        //    return View("Test"); 
-        //}
-
-
-
-
-
->>>>>>> a454bac1dd1b4d6b4708c815aef9e5a04ced05da
     }
 }
