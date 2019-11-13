@@ -3,8 +3,10 @@
 @{
     ViewBag.Current = "Calendar";
 }
-
-<h1>Calendar</h1>
+@Html.ActionLink("Go To Calender", "Grid", null, new { @class = "btn btn-primary" })
+<br />
+<br />
+<h3>Alla Events</h3>
 <table class="table">
     <thead>
         <tr>

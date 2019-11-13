@@ -45,6 +45,7 @@ namespace graph_tutorial.Controllers
             var date = DateTime.Parse(d);
             var events = await GraphHelper.GetEventsByDay(date);
             ViewBag.Test = d;
+            ViewBag.Events = events;
             return View();
         }
     }

@@ -3,5 +3,44 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@ViewBag.Test</h2>
+<h2>Dagens Event - @ViewBag.Test</h2>
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Orginazor</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Start</th>
+            <th scope="col">End</th>
+            <th scope="col">Attendees</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.Events)
+        {
+        <tr>
+            <td>
+                @item.Organizer.EmailAddress.Name
+            </td>
+
+            <td>
+                @item.Subject
+            </td>
+
+            <td>
+                @item.Start
+            </td>
+
+            <td>
+                @item.End
+            </td>
+
+            @*<td>
+                @item.Attendees.EmailAdress["Name"]
+            </td>*@
+
+        </tr>
+        }
+    </tbody>
+</table>
 
