@@ -27,7 +27,7 @@ namespace graph_tutorial.Helpers
             var graphClient = GetAuthenticatedClient();
 
             var events = await graphClient.Me.Events.Request()
-                .Select("subject,organizer,start,end")
+                .Select("subject,organizer,start,end,WebLink")
                 .OrderBy("createdDateTime DESC")
                 .GetAsync();
 
@@ -132,6 +132,9 @@ namespace graph_tutorial.Helpers
             fieldValueSet.AdditionalData.Add("Title", b.Title);
             fieldValueSet.AdditionalData.Add("Description", b.Description);
 
+            
+            fieldValueSet.AdditionalData.Add("PersonLookupId", b.Person);
+
             var listItem = new ListItem
             {
                 Fields = fieldValueSet
@@ -140,6 +143,27 @@ namespace graph_tutorial.Helpers
             await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items
                 .Request()
                 .AddAsync(listItem);
+        }
+
+
+        public static async Task<User[]> ListUser()
+        {
+            var client = GetAuthenticatedClient();
+
+            var users = await client.Users
+                .Request()
+                .GetAsync();
+
+            return users.ToArray();
+        }
+
+
+        public static async Task<User> GetUser(string id)
+        {
+            var client = GetAuthenticatedClient();
+
+            return await client.Users[id].Request().GetAsync();
+
         }
 
         public static async Task UpdateBooking(Booking b)
@@ -228,5 +252,6 @@ namespace graph_tutorial.Helpers
                 .Request()
                 .DeleteAsync();
         }
+
     }
 }

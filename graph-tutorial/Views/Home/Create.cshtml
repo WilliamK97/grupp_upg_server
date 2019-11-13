@@ -19,5 +19,11 @@
         @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
     </div>
 
+
+    <h5 style="font-family: Calibri">Person</h5>
+    @Html.DropDownListFor(b => b.Person, new SelectList(ViewBag.Users,"Value", "Text",1), "Select Person...", new { @class = "form-control" })
+
+    <br />
+    <br />
     <button type="submit" class="btn btn-primary">Save</button>
 }

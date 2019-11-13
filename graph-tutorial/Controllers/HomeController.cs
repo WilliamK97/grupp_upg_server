@@ -42,15 +42,22 @@ namespace graph_tutorial.Controllers
             var axel = await GraphHelper.GetBookings();
             var a = await GraphHelper.GetMe();
             var photo = await GraphHelper.GetMyPhoto();
+            
             ViewBag.Bookings = axel;
+            
             ViewBag.Mail = a.Mail;
             ViewBag.Name = a.DisplayName;
             ViewBag.Photo = photo;
+            
+
+            var folk = await GraphHelper.ListUser();
+            ViewBag.Users = folk;        
 
             return View();
         }
 
         [HttpGet]
+        
         public async Task<ActionResult> Create(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -75,13 +82,7 @@ namespace graph_tutorial.Controllers
             
             return RedirectToAction("Test");
         }
-        //[HttpPost]
-        //public async Task<ActionResult> Update(Booking b)
-        //{
-        //    await GraphHelper.UpdateBooking(b);
-
-        //    return RedirectToAction("Test");
-        //}
+        
 
         public async Task<ActionResult> Delete(string id)
         {
@@ -89,9 +90,6 @@ namespace graph_tutorial.Controllers
 
             return RedirectToAction("Test");
         }
-
-
-
 
     }
 }

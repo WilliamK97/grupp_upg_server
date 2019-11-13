@@ -12,6 +12,7 @@
             <th scope="col">Subject</th>
             <th scope="col">Start</th>
             <th scope="col">End</th>
+            <th scope="col">Details</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
                 <td>@item.Subject</td>
                 <td>@Convert.ToDateTime(item.Start.DateTime).ToString("M/d/yy h:mm tt")</td>
                 <td>@Convert.ToDateTime(item.End.DateTime).ToString("M/d/yy h:mm tt")</td>
+                <td> <a href="@item.WebLink" target="_blank">Details</a> </td>
             </tr>
         }
     </tbody>
