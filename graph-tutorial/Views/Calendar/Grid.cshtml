@@ -1,0 +1,55 @@
+﻿@model graph_tutorial.Models.CalendarGridViewModel
+
+@{
+    ViewBag.Title = "Grid";
+    int daysAdded = 1;
+}
+
+<h2>Grid</h2>
+
+<div class="calendar-container container">
+    @for (int i = 0; i < Model.Rows; i++)
+    {
+        <div class="row">
+            @for (int j = 0; j < Model.Cols; j++)
+            {
+                string id = $"{Model.Year}-{Model.Month}-{daysAdded}";
+
+                <div class="col-2 calendar-cell">
+                    <div class="calendar-cell-content" id="@id">
+                        @(daysAdded)
+                    </div>
+                </div>
+
+                if (++daysAdded > Model.Days)
+                {
+                    break;
+                }
+            }
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        $('.calendar-cell-content').click(function (evt) {
+            window.location.href = '@Url.Action("Details", "Calendar")?d=' + evt.target.id;
+        });
+    </script>
+}
+
+<style>
+    .row{
+        height: 150px;
+    }
+    .calendar-container {
+        background-color:lightblue;
+    }
+    .calendar-cell{
+        padding: 5px;
+    }
+    .calendar-cell-content{
+        background-color:white;
+        height: 100%;
+    }
+</style>
