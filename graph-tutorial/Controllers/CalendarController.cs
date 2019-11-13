@@ -40,9 +40,10 @@ namespace graph_tutorial.Controllers
             return View(model);
         }
 
-        public ActionResult Details(string d)
+        public async Task<ActionResult> Details(string d)
         {
             var date = DateTime.Parse(d);
+            await GraphHelper.GetEventsByDay(date);
             ViewBag.Test = d;
             return View();
         }
