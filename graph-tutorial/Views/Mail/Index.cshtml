@@ -4,8 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<h2>Dina Mail</h2>
+@Html.ActionLink("Nytt Mail", "Create", null, new { @class = "btn btn-primary" })
+<br />
 <table class="table table-dark table-sm table-hover">
     <thead>
         <tr>
@@ -34,11 +35,12 @@
         }
     </tbody>
 </table>
-@Html.ActionLink("Compose", "Create", null, new { @class = "btn btn-primary" })
+
 
 <script>
     function readMail(id) {
         window.location.href = '@Url.Action("Details","Mail")/' + id
     }
 </script>
+
 
