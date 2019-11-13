@@ -43,7 +43,7 @@ namespace graph_tutorial.Controllers
         public async Task<ActionResult> Details(string d)
         {
             var date = DateTime.Parse(d);
-            await GraphHelper.GetEventsByDay(date);
+            var events = await GraphHelper.GetEventsByDay(date);
             ViewBag.Test = d;
             return View();
         }

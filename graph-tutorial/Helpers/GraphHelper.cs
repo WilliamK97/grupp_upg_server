@@ -253,20 +253,11 @@ namespace graph_tutorial.Helpers
                 .DeleteAsync();
         }
 
-        public static async Task GetEventsByDay(DateTime date)
+        public static async Task<IEnumerable<Event>> GetEventsByDay(DateTime date)
         {
             GraphServiceClient graphClient = GetAuthenticatedClient();
 
-            var start = date;
             var end = date.AddDays(1);
-            var filter = $"start gt '{start}' and end lt '{end}'";
-
-            List<QueryOption> options = new List<QueryOption>
-                {
-                    new QueryOption("$expand",""),
-                    new QueryOption("$filter", filter)
-                };
-
             var events = await graphClient.Me.Events
                 .Request()
                 .Header("Prefer", "outlook.timezone=\"Pacific Standard Time\"")
@@ -282,8 +273,13 @@ namespace graph_tutorial.Helpers
                 })
                 .GetAsync();
 
-            return events.Where(m=> DateTime.Compare(m.Start.DateTime, start))
+            return events.Where(m =>
+            {
+                var t1 = DateTime.Parse(m.Start.DateTime);
+                var t2 = DateTime.Parse(m.End.DateTime);
 
+                return DateTime.Compare(t1, date) > 0 && DateTime.Compare(t2, end) < 0;
+            });
         }
 
 
