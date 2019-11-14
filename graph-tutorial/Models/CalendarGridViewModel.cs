@@ -12,5 +12,6 @@ namespace graph_tutorial.Models
         public int Days { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
+        public string MonthName { get; set; }
     }
 }

@@ -2,6 +2,8 @@
 using graph_tutorial.TokenStorage;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
+using RestSharp;
+using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -61,6 +63,31 @@ namespace graph_tutorial.Helpers
                     }));
         }
 
+        private async static Task<string> GetAccessTokenAsync()
+        {
+            var idClient = ConfidentialClientApplicationBuilder.Create(appId)
+                            .WithRedirectUri(redirectUri)
+                            .WithClientSecret(appSecret)
+                            .Build();
+            var tokenStore = new SessionTokenStore(idClient.UserTokenCache,
+                                HttpContext.Current, ClaimsPrincipal.Current);
+            var accounts = await idClient.GetAccountsAsync();
+            var scopes = graphScopes.Split(' ');
+            var result = await idClient.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
+                .ExecuteAsync();
+            return result.AccessToken;
+        }
+
+        public static async Task TestRestAsync()
+        {
+            RestClient client = new RestClient("https://ohras.sharepoint.com");
+            var token = await GetAccessTokenAsync();
+            client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(token, "Bearer");
+            var request = new RestRequest("_api/web/ensureuser('axel.ohras')");
+
+            var a = client.Execute(request);
+        }
+
         public static async Task<User> GetUserDetailsAsync(string accessToken)
         {
             var graphClient = new GraphServiceClient(
@@ -106,10 +133,11 @@ namespace graph_tutorial.Helpers
             var client = GetAuthenticatedClient();
             var queryOptions = new List<QueryOption>()
             {
-                new QueryOption("expand", "fields(select=Title,Description,ID)")
+                new QueryOption("expand", "fields(select=People,PeopleLookupId,Title,Description)")
             };
 
             var items = await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items.Request(queryOptions).GetAsync();
+            
             return items.Select(_ =>
             {
                 var data = _.Fields.AdditionalData;
@@ -117,6 +145,8 @@ namespace graph_tutorial.Helpers
                 {
                     Title = data["Title"].ToString(),
                     Description = data["Description"].ToString(),
+                    Person = data["People"].ToString(),
+                    PersonLookupId = data["PeopleLookupId"].ToString(),
                     Id = _.Id
                 };
             }).ToArray();
@@ -131,13 +161,13 @@ namespace graph_tutorial.Helpers
 
             fieldValueSet.AdditionalData.Add("Title", b.Title);
             fieldValueSet.AdditionalData.Add("Description", b.Description);
-
-            
-            fieldValueSet.AdditionalData.Add("PersonLookupId", b.Person);
+            //fieldValueSet.AdditionalData.Add("People", b.Person);
+            fieldValueSet.AdditionalData.Add("PeopleLookupId", "10");
 
             var listItem = new ListItem
             {
                 Fields = fieldValueSet
+                
             };
 
             await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items
@@ -164,6 +194,13 @@ namespace graph_tutorial.Helpers
 
             return await client.Users[id].Request().GetAsync();
 
+        }
+
+        public static async Task<User> GetUserByMail(string mail)
+        {
+            var client = GetAuthenticatedClient();
+            var users = await client.Users.Request().GetAsync();
+            return users.SingleOrDefault(_ => _.Mail == mail);
         }
 
         public static async Task UpdateBooking(Booking b)

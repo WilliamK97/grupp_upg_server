@@ -13,5 +13,6 @@ namespace graph_tutorial.Models
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public string Person { get; set; }
+        public string PersonLookupId { get; set; }
     }
 }

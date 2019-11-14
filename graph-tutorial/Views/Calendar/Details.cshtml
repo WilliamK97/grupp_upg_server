@@ -1,4 +1,6 @@
-﻿
+﻿@model graph_tutorial.Models.CalendarDetailsViewModel
+
+
 @{
     ViewBag.Title = "Details";
 }
@@ -8,7 +10,7 @@
 <table class="table table-dark">
     <thead>
         <tr>
-            <th scope="col">Orginazor</th>
+            <th scope="col">Organizer</th>
             <th scope="col">Subject</th>
             <th scope="col">Start</th>
             <th scope="col">End</th>
@@ -16,11 +18,11 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in ViewBag.Events)
+        @foreach (var item in Model.Events)
         {
         <tr>
             <td>
-                @item.Organizer.EmailAddress.Name
+                @item.Organizer
             </td>
 
             <td>
@@ -35,12 +37,30 @@
                 @item.End
             </td>
 
-            @*<td>
-                @item.Attendees.EmailAdress["Name"]
-            </td>*@
+            <td>
+                @foreach(var attendee in item.Attendees)
+                {
+                    @Html.ActionLink(attendee.EmailAddress.Name, "VisitDelve", new { mail = attendee.EmailAddress.Address})
+                }
+            </td>
 
         </tr>
         }
     </tbody>
 </table>
+
+<script>
+    function visitDelve(user) {
+         $.ajax({  
+                type: "GET",  
+                url: '@Url.Action("GetDelveUrl")',  
+                data: user,  
+                dataType: "json",  
+                contentType: "application/json; charset=utf-8",  
+                success: function (data) {  
+                    alert(data);
+                },  
+            });  
+    }
+</script>
 

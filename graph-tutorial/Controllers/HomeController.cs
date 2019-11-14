@@ -1,11 +1,8 @@
 ﻿using graph_tutorial.Attributes;
 using graph_tutorial.Helpers;
 using graph_tutorial.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace graph_tutorial.Controllers
@@ -15,11 +12,13 @@ namespace graph_tutorial.Controllers
     {
         public ActionResult Index()
         {
+            
             return View();
         }
 
         public ActionResult About()
         {
+            GraphHelper.TestRestAsync();
             ViewBag.Message = "Your application description page.";
 
             return View();
@@ -65,6 +64,14 @@ namespace graph_tutorial.Controllers
                 var booking = await GraphHelper.GetBooking(id);
                 return View(booking);
             }
+            var folk = await GraphHelper.ListUser();
+            var users = folk.Select(_ => new SelectListItem()
+            {
+                Text = _.DisplayName,
+                Value = _.DisplayName
+            });
+
+            ViewBag.Users = users;
             return View();
         }
 
