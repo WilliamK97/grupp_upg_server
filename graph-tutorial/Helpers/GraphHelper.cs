@@ -2,6 +2,8 @@
 using graph_tutorial.TokenStorage;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
@@ -80,12 +82,19 @@ namespace graph_tutorial.Helpers
 
         public static async Task TestRestAsync()
         {
-            RestClient client = new RestClient("https://ohras.sharepoint.com");
+            RestClient client = new RestClient("https://graph.microsoft.com/v1.0/");
             var token = await GetAccessTokenAsync();
             client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(token, "Bearer");
-            var request = new RestRequest("_api/web/ensureuser('axel.ohras')");
 
+            var request = new RestRequest("sites/root/lists/1E10CAC5-5E13-4A57-B913-2AEB9EA109C6/items?expand=fields", DataFormat.Json);
             var a = client.Execute(request);
+
+            var json = JObject.Parse(a.Content)["value"]
+                .Select(_ => _["fields"])
+                .FirstOrDefault(_ => _["Title"].Value<string>() == "Axel Ohrås")
+                //.Select(_ => new { id = _["id"].Value<string>() ,name = _["Title"].Value<string>() })
+                ;
+            var test = json["Title"].Value<string>();
         }
 
         public static async Task<User> GetUserDetailsAsync(string accessToken)
@@ -136,7 +145,7 @@ namespace graph_tutorial.Helpers
                 new QueryOption("expand", "fields(select=People,PeopleLookupId,Title,Description)")
             };
 
-            var items = await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items.Request(queryOptions).GetAsync();
+           var items = await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items.Request(queryOptions).GetAsync();
             
             return items.Select(_ =>
             {
@@ -156,13 +165,22 @@ namespace graph_tutorial.Helpers
         {
             var client = GetAuthenticatedClient();
 
+            RestClient restClient = new RestClient("https://graph.microsoft.com/v1.0/");
+            var token = await GetAccessTokenAsync();
+            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(token, "Bearer");
+            var request = new RestRequest("sites/root/lists/1E10CAC5-5E13-4A57-B913-2AEB9EA109C6/items?expand=fields", DataFormat.Json);
+            var response = restClient.Execute(request);
+
+            var json = JObject.Parse(response.Content)["value"]
+                .Select(_ => _["fields"])
+                .FirstOrDefault(_ => _["Title"].Value<string>() == b.Person);
+            var lookup = json["id"].Value<string>();
+
             var fieldValueSet = new FieldValueSet();
             fieldValueSet.AdditionalData = new Dictionary<string, object>();
-
             fieldValueSet.AdditionalData.Add("Title", b.Title);
             fieldValueSet.AdditionalData.Add("Description", b.Description);
-            //fieldValueSet.AdditionalData.Add("People", b.Person);
-            fieldValueSet.AdditionalData.Add("PeopleLookupId", "10");
+            fieldValueSet.AdditionalData.Add("PeopleLookupId", lookup);
 
             var listItem = new ListItem
             {
