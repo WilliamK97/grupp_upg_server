@@ -266,7 +266,7 @@ namespace graph_tutorial.Helpers
         public static async Task<Message[]> GetMessages()
         {
             var client = GetAuthenticatedClient();
-            var messages = await client.Me.Messages
+            var messages = await client.Me.MailFolders.Inbox.Messages
             .Request()
             .Select(e => new
             {
@@ -282,7 +282,7 @@ namespace graph_tutorial.Helpers
         {
             GraphServiceClient graphClient = GetAuthenticatedClient();
 
-            return await graphClient.Me.MailFolders.Inbox.Messages[id]
+            return await graphClient.Me.Messages[id]
                 .Request()
                 .GetAsync();
         }
