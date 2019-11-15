@@ -284,6 +284,7 @@
     <Content Include="Views\Mail\Create.cshtml" />
     <Content Include="Views\Calendar\Grid.cshtml" />
     <Content Include="Views\Calendar\Details.cshtml" />
+    <Content Include="Views\Mail\UnreadMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

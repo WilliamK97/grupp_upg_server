@@ -264,7 +264,7 @@ namespace graph_tutorial.Helpers
         {
             GraphServiceClient graphClient = GetAuthenticatedClient();
 
-            return await graphClient.Me.Messages[id]
+            return await graphClient.Me.MailFolders.Inbox.Messages[id]
                 .Request()
                 .GetAsync();
         }
@@ -317,6 +317,24 @@ namespace graph_tutorial.Helpers
 
                 return DateTime.Compare(t1, date) > 0 && DateTime.Compare(t2, end) < 0;
             });
+        }
+
+        public static async Task<Message[]> UnreadMail()
+        {
+            GraphServiceClient graphClient = GetAuthenticatedClient();
+
+            //https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$filter=isRead eq false
+
+            var queryOptions = new List<QueryOption>()
+            {
+                new QueryOption("filter", "isRead eq false")
+            };
+
+            var unReadMessages = await graphClient.Me.MailFolders.Inbox.Messages
+                .Request(queryOptions)
+                .GetAsync();
+
+            return unReadMessages.ToArray();
         }
 
 
