@@ -3,21 +3,22 @@
     ViewBag.Title = "Test";
 }
 
-    <h2>
-        @if (!string.IsNullOrEmpty(ViewBag.Photo))
-        {
-            <img style="width: 7%;" src="data:image/png;base64,@ViewBag.Photo" />
-        }
-        Hi @ViewBag.Name
-    </h2>
+<h2>
+    @if (!string.IsNullOrEmpty(ViewBag.Photo))
+    {
+        <img style="width: 7%;" src="data:image/png;base64,@ViewBag.Photo" />
+    }
+    Hi @ViewBag.Name
+</h2>
 <h4>@ViewBag.Mail</h4>
 
 <hr />
-<h2>Your Favourites</h2>
+<h2>Your Favourites colleagues</h2>
 <ul class="list-group">
     @foreach (var item in ViewBag.Users)
     {
-        <li class="list-group-item">@item.DisplayName</li>
+        <li class="list-group-item">@item.DisplayName  <span>@Html.ActionLink("Mail", "Create", "Mail", new { mail = item.Mail }, new { @class = "btn btn-primary float-right" })</span></li>
+
     }
 </ul>
 
@@ -34,21 +35,21 @@
     <tbody>
         @foreach (var item in ViewBag.Bookings)
         {
-        <tr>
-            <td>
-                @item.Title
-            </td>
-            <td>
-                @item.Description
-            </td>
-          
-            <td>
-                @Html.ActionLink("Update", "Create", new { id = item.Id }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-primary" })
- 
-            </td>
-            
-        </tr>
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Description
+                </td>
+
+                <td>
+                    @Html.ActionLink("Update", "Create", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-primary" })
+
+                </td>
+
+            </tr>
         }
     </tbody>
 </table>

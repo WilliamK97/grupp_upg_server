@@ -21,9 +21,12 @@ namespace graph_tutorial.Controllers
             return View(model);
         }
 
-        public ActionResult Create()
+
+        public ActionResult Create(string mail)
         {
-            return View();
+            var model = new MessageViewModel();
+            model.Reciepient = mail;
+            return View(model);
         }
 
         [HttpPost]
@@ -62,6 +65,12 @@ namespace graph_tutorial.Controllers
         {
             await GraphHelper.DeleteMessage(id);
             return RedirectToAction("Index","Mail");
+        }
+
+        public async Task<ActionResult> UnreadMessages()
+        {
+            var model = await GraphHelper.UnreadMail();
+            return View(model);
         }
     }
 }
