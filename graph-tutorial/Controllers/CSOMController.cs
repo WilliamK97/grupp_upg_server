@@ -23,8 +23,10 @@ namespace graph_tutorial.Controllers
         public ActionResult ListDetails(string listName)
         {
             var list = SharepointHelper.GetList(listName);
-            ViewBag.ListName = list.Title;
-            return View();
+            var model = new ListDetailsViewModel();
+            model.Title = listName;
+            model.Items = list.Select(_ => _["Title"].ToString());
+            return View(model);
         }
 
         [HttpGet]

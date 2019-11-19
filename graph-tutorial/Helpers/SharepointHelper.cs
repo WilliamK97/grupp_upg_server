@@ -31,7 +31,6 @@ namespace graph_tutorial.Helpers
             {
                 securePassword.AppendChar(c);
             }
-
             return new SharePointOnlineCredentials(_Username, securePassword);
         }
 
@@ -46,11 +45,12 @@ namespace graph_tutorial.Helpers
             }
         }
 
-        public static List GetList(string title)
+        public static ListItemCollection GetList(string title)
         {
             using (var client = GetClient())
             {
-                var query = client.Web.Lists.GetByTitle(title);
+                var query = client.Web.Lists.GetByTitle(title)
+                    .GetItems(CamlQuery.CreateAllItemsQuery(100)); 
                 client.Load(query);
                 client.ExecuteQuery();
                 return query;

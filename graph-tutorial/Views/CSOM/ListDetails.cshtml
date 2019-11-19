@@ -1,8 +1,17 @@
-﻿@{
+﻿@model graph_tutorial.Models.ListDetailsViewModel
+
+@{
     ViewBag.Title = "ListDetails";
 }
 
-<h2>@ViewBag.ListName</h2>
+<h2>@Model.Title</h2>
 @Html.ActionLink("Add Item", "CreateListItem", new { listName = ViewBag.ListName }, new { @class = "btn btn-primary"})
+
+<ul>
+    @foreach(var item in Model.Items)
+    {
+        <li>@item</li>
+    }
+</ul>
 
 
