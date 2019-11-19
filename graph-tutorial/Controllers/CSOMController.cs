@@ -53,7 +53,7 @@ namespace graph_tutorial.Controllers
         public ActionResult CreateListItem(CreateListItemViewModel model)
         {
             SharepointHelper.AddItemToList(model.ListTitle, model.Title);
-            return RedirectToAction("");
+            return RedirectToAction("ListDetails", new { listName = model.ListTitle });
         }
     }
 }

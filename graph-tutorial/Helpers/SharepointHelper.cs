@@ -67,13 +67,14 @@ namespace graph_tutorial.Helpers
                     TemplateType = 100
                 };
 
-                var query = client.Web.Lists.Add(lci);
+                client.Web.Lists.Add(lci);
                 client.ExecuteQuery();
             }
         }
 
         public static void AddItemToList(string listTitle, string title)
         {
+            if (string.IsNullOrWhiteSpace(listTitle) || string.IsNullOrWhiteSpace(title)) return;
             using (var client = GetClient())
             {
                 var list = client.Web.Lists.GetByTitle(listTitle);
