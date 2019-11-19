@@ -1,0 +1,8 @@
+﻿@{
+    ViewBag.Title = "ListDetails";
+}
+
+<h2>@ViewBag.ListName</h2>
+@Html.ActionLink("Add Item", "CreateListItem", new { listName = ViewBag.ListName }, new { @class = "btn btn-primary"})
+
+

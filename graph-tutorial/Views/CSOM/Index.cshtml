@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<ul>
+    @foreach (string list in ViewBag.Lists)
+    {
+        <li>@Html.ActionLink(list, "ListDetails", new { listName = list }, null)</li>
+    }
+</ul>

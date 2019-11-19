@@ -183,6 +183,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\CSOMController.cs" />
     <Compile Include="Controllers\FlabbyBirdController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MailController.cs" />
@@ -190,10 +191,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\GraphHelper.cs" />
+    <Compile Include="Helpers\SharepointHelper.cs" />
     <Compile Include="Models\Alert.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\CalendarDetailsViewModel.cs" />
     <Compile Include="Models\CalendarGridViewModel.cs" />
+    <Compile Include="Models\CreateListItemViewModel.cs" />
+    <Compile Include="Models\CreateListViewModel.cs" />
     <Compile Include="Models\MessageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -285,6 +289,10 @@
     <Content Include="Views\Calendar\Grid.cshtml" />
     <Content Include="Views\Calendar\Details.cshtml" />
     <Content Include="Views\Mail\UnreadMessages.cshtml" />
+    <Content Include="Views\CSOM\Index.cshtml" />
+    <Content Include="Views\CSOM\CreateList.cshtml" />
+    <Content Include="Views\CSOM\CreateListItem.cshtml" />
+    <Content Include="Views\CSOM\ListDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

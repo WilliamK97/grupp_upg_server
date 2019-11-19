@@ -1,0 +1,17 @@
+﻿@model graph_tutorial.Models.CreateListViewModel
+
+@{
+    ViewBag.Title = "CreateList";
+}
+
+<h2>CreateList</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title)
+        @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Title", type = "text" })
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+}
+
