@@ -95,5 +95,18 @@ namespace graph_tutorial.Helpers
                 client.ExecuteQuery();
             }
         }
+
+        public static void UpdateListItem(string listTitle, string title)
+        {
+            using (var client = GetClient())
+            {
+                var list = client.Web.Lists.GetByTitle(listTitle);
+                list.Title = title;
+
+                list.Update();
+                client.Load(list);
+                client.ExecuteQuery();
+            }
+        }
     }
 }

@@ -70,6 +70,7 @@ namespace graph_tutorial.Controllers
         public async Task<ActionResult> UnreadMessages()
         {
             var model = await GraphHelper.UnreadMail();
+           
             return View(model);
         }
     }

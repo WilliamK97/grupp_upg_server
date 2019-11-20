@@ -5,6 +5,7 @@
 }
 
 <h2>@Model.Title</h2>
+ @Html.ActionLink("Update item", "UpdateListItem")
 @Html.ActionLink("Add Item", "CreateListItem", new { listName = Model.Title }, new { @class = "btn btn-primary"})
 
 <ul>
