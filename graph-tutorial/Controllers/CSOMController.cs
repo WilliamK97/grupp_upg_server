@@ -55,5 +55,14 @@ namespace graph_tutorial.Controllers
             SharepointHelper.AddItemToList(model.ListTitle, model.Title);
             return RedirectToAction("ListDetails", new { listName = model.ListTitle });
         }
+       
+        public ActionResult DeleteList(string listName)
+        {
+            SharepointHelper.DeleteList(listName);
+
+            return RedirectToAction("Index");
+
+        }
+
     }
 }

@@ -85,5 +85,15 @@ namespace graph_tutorial.Helpers
                 client.ExecuteQuery();
             }
         }
+
+        public static void DeleteList(string listTitle)
+        {
+            using (var client = GetClient())
+            {
+                var list = client.Web.Lists.GetByTitle(listTitle);
+                list.DeleteObject();
+                client.ExecuteQuery();
+            }
+        }
     }
 }
