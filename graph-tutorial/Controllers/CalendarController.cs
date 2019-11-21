@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Linq;
+using System.Globalization;
 
 namespace graph_tutorial.Controllers
 {
@@ -20,10 +21,10 @@ namespace graph_tutorial.Controllers
             // Change start and end dates from UTC to local time
             foreach (var ev in events)
             {
-                ev.Start.DateTime = DateTime.Parse(ev.Start.DateTime).ToLocalTime().ToString();
-                ev.Start.TimeZone = TimeZoneInfo.Local.Id;
-                ev.End.DateTime = DateTime.Parse(ev.End.DateTime).ToLocalTime().ToString();
-                ev.End.TimeZone = TimeZoneInfo.Local.Id;
+                ev.Start.DateTime = DateTime.Parse(ev.Start.DateTime).ToString();
+              
+                ev.End.DateTime = DateTime.Parse(ev.End.DateTime).ToString();
+              
             }
 
             return View(events);
@@ -47,7 +48,7 @@ namespace graph_tutorial.Controllers
         public async Task<ActionResult> Details(string d)
         {
             var model = new CalendarDetailsViewModel();
-            var date = DateTime.Parse(d);
+            var date = DateTime.Parse(d, CultureInfo.InvariantCulture);
             var events = await GraphHelper.GetEventsByDay(date);
             model.Events = events.Select(_ =>
             {

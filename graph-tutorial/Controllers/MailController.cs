@@ -18,6 +18,9 @@ namespace graph_tutorial.Controllers
         public async Task<ActionResult> Index()
         {
             var model = await GraphHelper.GetMessages();
+           
+            var unRead = await GraphHelper.UnreadMail();
+            ViewBag.unRead = unRead.Count();
             return View(model);
         }
 
@@ -70,6 +73,7 @@ namespace graph_tutorial.Controllers
         public async Task<ActionResult> UnreadMessages()
         {
             var model = await GraphHelper.UnreadMail();
+           
             return View(model);
         }
     }

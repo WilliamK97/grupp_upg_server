@@ -59,10 +59,11 @@ namespace graph_tutorial.Controllers
         
         public async Task<ActionResult> Create(string id)
         {
+            var booking = new Booking();
             if (!string.IsNullOrEmpty(id))
             {
-                var booking = await GraphHelper.GetBooking(id);
-                return View(booking);
+                 booking = await GraphHelper.GetBooking(id);
+                
             }
             var folk = await GraphHelper.ListUser();
             var users = folk.Select(_ => new SelectListItem()
@@ -72,7 +73,7 @@ namespace graph_tutorial.Controllers
             });
 
             ViewBag.Users = users;
-            return View();
+            return View(booking);
         }
 
         [HttpPost]
