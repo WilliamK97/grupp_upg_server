@@ -101,10 +101,9 @@ namespace graph_tutorial.Helpers
             using (var client = GetClient())
             {
                 var list = client.Web.Lists.GetByTitle(listTitle);
-                list.Title = title;
+           
 
-                list.Update();
-                client.Load(list);
+                list.Update();                
                 client.ExecuteQuery();
             }
         }
