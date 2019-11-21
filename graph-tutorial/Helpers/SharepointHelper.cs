@@ -1,4 +1,5 @@
-﻿using graph_tutorial.TokenStorage;
+﻿using graph_tutorial.Models;
+using graph_tutorial.TokenStorage;
 using Microsoft.Identity.Client;
 using Microsoft.SharePoint.Client;
 using System;
@@ -72,15 +73,24 @@ namespace graph_tutorial.Helpers
             }
         }
 
-        public static void AddItemToList(string listTitle, string title)
+        public static void AddItemToList(string listTitle, SPListItem data)
         {
-            if (string.IsNullOrWhiteSpace(listTitle) || string.IsNullOrWhiteSpace(title)) return;
+            if (string.IsNullOrWhiteSpace(listTitle) || data == null) return;
             using (var client = GetClient())
             {
                 var list = client.Web.Lists.GetByTitle(listTitle);
-                ListItemCreationInformation itemInfo = new ListItemCreationInformation();
-                var item = list.AddItem(itemInfo);
-                item["Title"] = title;
+                ListItem item = null;
+                if (string.IsNullOrEmpty(data.Id))
+                {
+                    ListItemCreationInformation itemInfo = new ListItemCreationInformation();
+                    item = list.AddItem(itemInfo);
+                }
+                else
+                {
+                    item = list.GetItemById(data.Id);
+                }
+                
+                item["Title"] = data.Title;
                 item.Update();
                 client.ExecuteQuery();
             }
@@ -96,15 +106,19 @@ namespace graph_tutorial.Helpers
             }
         }
 
-        public static void UpdateListItem(string listTitle, string title)
+        public static SPListItem GetItem(string listTitle, string id)
         {
             using (var client = GetClient())
             {
                 var list = client.Web.Lists.GetByTitle(listTitle);
-           
-
-                list.Update();                
+                var item = list.GetItemById(id);
+                client.Load(item);
                 client.ExecuteQuery();
+                return new SPListItem()
+                {
+                    Id = item.Id.ToString(),
+                    Title = item["Title"].ToString()
+                };
             }
         }
     }
