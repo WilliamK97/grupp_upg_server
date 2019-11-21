@@ -2,8 +2,11 @@
 @{
     ViewBag.Title = "Index";
 }
+    <div>
 
-<h2>Index</h2>
+        <h2>Sharepoint lists</h2>
+        <p>@Html.ActionLink("Create a list", "CreateList", "CSOM")</p>
+    </div>
 <ul>
     @foreach (string list in ViewBag.Lists)
     {

@@ -3,9 +3,10 @@
 @{
     ViewBag.Title = "CreateList";
 }
-
-<h2>CreateList</h2>
-
+    <div>
+        <h2>CreateList</h2>
+        <p>@Html.ActionLink("Back", "Index", "CSOM")</p>
+    </div>
 @using (Html.BeginForm())
 {
     <div class="form-group">

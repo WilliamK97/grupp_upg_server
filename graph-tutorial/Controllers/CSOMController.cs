@@ -64,5 +64,15 @@ namespace graph_tutorial.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult UpdateListItem(string listName, string title)
+        {
+            SharepointHelper.UpdateListItem(listName, title);
+
+            return RedirectToAction("ListDetails");
+
+        }
+
+
     }
 }

@@ -3,8 +3,10 @@
 @{
     ViewBag.Title = "CreateItem";
 }
-
-<h2>CreateItem</h2>
+    <div>
+        <h2>CreateItem</h2>
+        <p>@Html.ActionLink("Back", "ListDetails", "CSOM")</p>
+    </div>
 
 @using (Html.BeginForm())
 {
