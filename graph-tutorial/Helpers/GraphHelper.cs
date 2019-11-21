@@ -315,7 +315,6 @@ namespace graph_tutorial.Helpers
             var end = date.AddDays(1);
             var events = await graphClient.Me.Events
                 .Request()
-                .Header("Prefer", "outlook.timezone=\"Pacific Standard Time\"")
                 .Select(e => new {
                     e.Subject,
                     e.Body,
@@ -333,7 +332,7 @@ namespace graph_tutorial.Helpers
                 var t1 = DateTime.Parse(m.Start.DateTime);
                 var t2 = DateTime.Parse(m.End.DateTime);
 
-                return DateTime.Compare(t1, date) > 0 && DateTime.Compare(t2, end) < 0;
+                return DateTime.Compare(t1, date) >= 0 && DateTime.Compare(t2, end) < 0;
             });
         }
 
