@@ -7,7 +7,7 @@ namespace graph_tutorial.Models
 {
     public class CreateListItemViewModel
     {
-        public string Title { get; set; }
+        public SPListItem Item { get; set; }
         public string ListTitle { get; set; }
     }
 }

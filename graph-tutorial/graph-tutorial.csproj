@@ -200,6 +200,7 @@
     <Compile Include="Models\CreateListViewModel.cs" />
     <Compile Include="Models\ListDetailsViewModel.cs" />
     <Compile Include="Models\MessageViewModel.cs" />
+    <Compile Include="Models\SPListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TokenStorage\SessionTokenStore.cs" />

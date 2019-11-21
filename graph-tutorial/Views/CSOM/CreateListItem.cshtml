@@ -8,11 +8,12 @@
 
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(m => m.ListTitle);
+    @Html.HiddenFor(m => m.ListTitle)
+    @Html.HiddenFor(m => m.Item.Id)
 
     <div class="form-group">
-        @Html.LabelFor(m => m.Title)
-        @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Title", type = "text" })
+        @Html.LabelFor(m => m.Item.Title)
+        @Html.TextBoxFor(m => m.Item.Title, new { @class = "form-control", placeholder = "Title", type = "text" })
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 }

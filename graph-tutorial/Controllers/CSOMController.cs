@@ -25,7 +25,11 @@ namespace graph_tutorial.Controllers
             var list = SharepointHelper.GetList(listName);
             var model = new ListDetailsViewModel();
             model.Title = listName;
-            model.Items = list.Select(_ => _["Title"].ToString());
+            model.Items = list.Select(_ => new SPListItem()
+            {
+                Title = _["Title"].ToString(),
+                Id = _["ID"].ToString()
+            });
             return View(model);
         }
 
@@ -42,9 +46,13 @@ namespace graph_tutorial.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult CreateListItem(string listName)
-        {
+        public ActionResult CreateListItem(string listName, string id)
+        {     
             var model = new CreateListItemViewModel();
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                model.Item = SharepointHelper.GetItem(listName, id);
+            }
             model.ListTitle = listName;
             return View(model);
         }
@@ -52,7 +60,7 @@ namespace graph_tutorial.Controllers
         [HttpPost]
         public ActionResult CreateListItem(CreateListItemViewModel model)
         {
-            SharepointHelper.AddItemToList(model.ListTitle, model.Title);
+            SharepointHelper.AddItemToList(model.ListTitle, model.Item);
             return RedirectToAction("ListDetails", new { listName = model.ListTitle });
         }
        

@@ -7,11 +7,23 @@
 <h2>@Model.Title</h2>
 @Html.ActionLink("Add Item", "CreateListItem", new { listName = Model.Title }, new { @class = "btn btn-primary"})
 
-<ul>
-    @foreach(var item in Model.Items)
-    {
-        <li>@item</li>
-    }
-</ul>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@Html.ActionLink("Update", "CreateListItem", new { listName = Model.Title, id = item.Id }, new { @class = "btn btn-primary" })</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 
 
