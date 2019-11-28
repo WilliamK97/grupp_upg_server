@@ -19,7 +19,10 @@
         {
             <tr>
                 <td>@item.Title</td>
-                <td>@Html.ActionLink("Update", "CreateListItem", new { listName = Model.Title, id = item.Id }, new { @class = "btn btn-primary" })</td>
+                <td>
+                    @Html.ActionLink("Update", "CreateListItem", new { listName = Model.Title, id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Delete", "DeleteItem", new { listName = Model.Title, id = item.Id }, new { @class = "btn btn-primary" })
+                </td>
             </tr>
         }
     </tbody>

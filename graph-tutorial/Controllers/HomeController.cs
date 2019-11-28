@@ -12,8 +12,7 @@ namespace graph_tutorial.Controllers
     {
         public ActionResult Index()
         {
-            
-            return View();
+            return RedirectToAction("Index", "Calendar");
         }
 
         public ActionResult About()
@@ -79,15 +78,7 @@ namespace graph_tutorial.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(Booking b)
         {
-            if (string.IsNullOrEmpty(b.Id))
-            {
-                await GraphHelper.PostBooking(b);
-            }
-            else
-            {
-                await GraphHelper.UpdateBooking(b);
-            }
-            
+            await GraphHelper.PostBooking(b);     
             return RedirectToAction("Test");
         }
         

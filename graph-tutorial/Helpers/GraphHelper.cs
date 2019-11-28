@@ -188,9 +188,18 @@ namespace graph_tutorial.Helpers
                 
             };
 
-            await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items
+            if (string.IsNullOrEmpty(b.Id))
+            {
+                await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items
                 .Request()
                 .AddAsync(listItem);
+            }
+            else
+            {
+                await client.Sites["root"].Lists["078f5835-c141-4ca9-a429-a1bebb14059a"].Items[b.Id]
+                .Request()
+                .UpdateAsync(listItem);
+            }        
         }
 
 
@@ -274,6 +283,7 @@ namespace graph_tutorial.Helpers
                 e.BodyPreview,
                 e.Subject
             })
+            .Top(100)
             .GetAsync();
             return messages.ToArray();
         }
@@ -284,7 +294,10 @@ namespace graph_tutorial.Helpers
 
             return await graphClient.Me.Messages[id]
                 .Request()
-                .GetAsync();
+                .UpdateAsync(new Message()
+                {
+                    IsRead = true
+                });
         }
 
         public static async Task SendMail(Message message)

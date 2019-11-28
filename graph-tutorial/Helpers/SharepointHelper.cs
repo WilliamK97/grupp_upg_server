@@ -121,5 +121,16 @@ namespace graph_tutorial.Helpers
                 };
             }
         }
+
+        public static void DeleteItem(string listTitle, string id)
+        {
+            using (var client = GetClient())
+            {
+                var list = client.Web.Lists.GetByTitle(listTitle);
+                var item = list.GetItemById(id);
+                item.DeleteObject();
+                client.ExecuteQuery();
+            }
+        }
     }
 }

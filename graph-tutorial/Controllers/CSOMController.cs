@@ -67,9 +67,13 @@ namespace graph_tutorial.Controllers
         public ActionResult DeleteList(string listName)
         {
             SharepointHelper.DeleteList(listName);
-
             return RedirectToAction("Index");
+        }
 
+        public ActionResult DeleteItem(string listName, string id)
+        {
+            SharepointHelper.DeleteItem(listName, id);
+            return RedirectToAction("ListDetails", new { listName });
         }
 
     }
